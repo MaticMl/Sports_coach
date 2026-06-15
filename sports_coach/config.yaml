@@ -1,6 +1,6 @@
 name: Sports Coach
 description: Cycling & running analytics dashboard (intervals.icu)
-version: "1.0.0"
+version: "1.0.1"
 slug: sports_coach
 init: false
 arch:
