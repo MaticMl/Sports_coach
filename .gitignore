@@ -1,0 +1,18 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+*.egg-info/
+
+# Node
+node_modules/
+dist/
+.vite/
+
+# Secrets & local data
+.env
+backend/data/
+sports_coach/backend/data/
+
+# Strava archive (large, local only)
+export_*/

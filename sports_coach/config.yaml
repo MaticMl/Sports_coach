@@ -1,0 +1,30 @@
+name: Sports Coach
+description: Cycling & running analytics dashboard (intervals.icu)
+version: "1.0.0"
+slug: sports_coach
+init: false
+arch:
+  - aarch64
+  - amd64
+
+ingress: true
+ingress_port: 8000
+panel_icon: mdi:run-fast
+panel_title: Sports Coach
+
+options:
+  intervals_api_key: ""
+  athlete_id: ""
+  rider_mass_kg: 75.0
+  bike_mass_kg: 8.0
+  sync_hour: 6
+
+schema:
+  intervals_api_key: str
+  athlete_id: str
+  rider_mass_kg: float
+  bike_mass_kg: float
+  sync_hour: int(0..23)
+
+map:
+  - data:rw
