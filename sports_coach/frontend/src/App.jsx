@@ -1,6 +1,5 @@
 import React, { useState, useMemo } from 'react'
 import { Activity, RefreshCw, FileText, Cpu, AlertCircle } from 'lucide-react'
-import HRDriftPanel from './components/charts/HRDriftPanel'
 import IntensityDistributionPanel from './components/charts/IntensityDistributionPanel'
 import RunProgressionPanel from './components/charts/RunProgressionPanel'
 import InterferencePanel from './components/charts/InterferencePanel'
@@ -79,14 +78,6 @@ function SyncBar({ preset, onPresetChange }) {
 }
 
 const TOP_PANELS = [
-  {
-    id: 'hr-drift',
-    title: 'HR Drift Detection',
-    subtitle: 'Z2 aerobic decoupling',
-    accent: 'from-green-500/10',
-    border: 'border-green-500/20',
-    Component: HRDriftPanel,
-  },
   {
     id: 'intensity',
     title: 'Intensity Distribution',
@@ -175,23 +166,14 @@ export default function App() {
           </div>
         </header>
 
-        {/* Wellness strip */}
-        <div className="w-full px-6 pt-5">
-          <div className="bg-slate-800/40 border border-slate-700/50 rounded-2xl p-5 mb-5">
+        {/* Wellness strip + Readiness */}
+        <div className="w-full px-6 pt-5 flex flex-col gap-5">
+          <div className="bg-slate-800/40 border border-slate-700/50 rounded-2xl p-5">
             <div className="flex items-center gap-2 mb-3">
               <Cpu size={14} className="text-slate-400" />
               <h2 className="text-slate-300 font-semibold text-sm">Wellness Overview</h2>
             </div>
             <WellnessPanel />
-          </div>
-        </div>
-
-        {/* Main grid */}
-        <main className="w-full px-6 pb-8 flex flex-col gap-5">
-          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
-            {TOP_PANELS.map(p => (
-              <PanelCard key={p.id} {...p} />
-            ))}
           </div>
           <PanelCard
             id="readiness"
@@ -202,6 +184,15 @@ export default function App() {
             Component={ReadinessPanel}
             className="min-h-[420px]"
           />
+        </div>
+
+        {/* Main grid */}
+        <main className="w-full px-6 pb-8 flex flex-col gap-5">
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
+            {TOP_PANELS.map(p => (
+              <PanelCard key={p.id} {...p} />
+            ))}
+          </div>
           <PanelCard
             id="equiv-speed"
             title="Cycling Equivalent Speed"
