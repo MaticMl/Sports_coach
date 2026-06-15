@@ -75,10 +75,11 @@ export default function WellnessPanel() {
       </div>
 
       {/* Mini charts */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         <MiniChart data={daily} dataKey="hrv" color="#a78bfa" unit=" ms" label="HRV (last 90d)" />
         <MiniChart data={daily} dataKey="sleep_score" color="#34d399" unit="" label="Sleep Score (last 90d)" domain={[0, 100]} />
         <MiniChart data={daily} dataKey="weight_kg" color="#fbbf24" unit=" kg" label="Weight (last 90d)" />
+        <MiniChart data={daily} dataKey="resting_hr" color="#f87171" unit=" bpm" label="Resting HR (last 90d)" reversed />
       </div>
     </div>
   )

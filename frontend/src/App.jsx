@@ -7,6 +7,7 @@ import InterferencePanel from './components/charts/InterferencePanel'
 import ClimbVAMPanel from './components/charts/ClimbVAMPanel'
 import PaceHRPanel from './components/charts/PaceHRPanel'
 import EquivSpeedPanel from './components/charts/EquivSpeedPanel'
+import ReadinessPanel from './components/charts/ReadinessPanel'
 import WellnessPanel from './components/WellnessPanel'
 import {
   useAthleteData,
@@ -192,6 +193,15 @@ export default function App() {
               <PanelCard key={p.id} {...p} />
             ))}
           </div>
+          <PanelCard
+            id="readiness"
+            title="Readiness &amp; Workload"
+            subtitle="Daily score (HRV · Sleep · RHR) + Acute:Chronic ratio"
+            accent="from-violet-500/10"
+            border="border-violet-500/20"
+            Component={ReadinessPanel}
+            className="min-h-[420px]"
+          />
           <PanelCard
             id="equiv-speed"
             title="Cycling Equivalent Speed"

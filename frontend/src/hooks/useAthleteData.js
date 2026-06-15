@@ -64,5 +64,8 @@ export const useTriggerSync = () => {
   })
 }
 
+export const useReadiness = () =>
+  useQuery({ queryKey: ['readiness'], queryFn: () => fetch('/readiness', {}) })
+
 export const useGenerateReport = () =>
   useMutation({ mutationFn: () => api.post('/generate-report') })
