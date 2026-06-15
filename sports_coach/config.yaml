@@ -24,7 +24,7 @@ schema:
   athlete_id: str
   rider_mass_kg: float
   bike_mass_kg: float
-  sync_hour: int(0..23)
+  sync_hour: int
 
 map:
   - data:rw
