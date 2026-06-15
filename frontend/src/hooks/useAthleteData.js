@@ -3,7 +3,10 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import axios from 'axios'
 import { TimeRangeContext } from '../context/TimeRangeContext.jsx'
 
-const api = axios.create({ baseURL: '/api' })
+// Derive base URL from current page location so it works both in dev
+// (http://localhost:5173/) and behind the HA ingress proxy
+// (https://ha/api/hassio_ingress/<token>/).
+const api = axios.create({ baseURL: new URL('api', window.location.href).toString() })
 
 // Strip null/undefined so they aren't sent as empty strings
 const clean = (params) => Object.fromEntries(Object.entries(params).filter(([, v]) => v != null))
