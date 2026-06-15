@@ -36,7 +36,15 @@ export default function WellnessPanel() {
     </div>
   )
 
-  const daily = data?.daily?.slice(-14) || []
+  // Forward-fill weight across the full history so the last weigh-in
+  // persists into days with no entry, then slice to the display window.
+  const allDaily = data?.daily || []
+  let lastWeight = null
+  const filled = allDaily.map(d => {
+    if (d.weight_kg != null) lastWeight = d.weight_kg
+    return lastWeight != null ? { ...d, weight_kg: lastWeight } : d
+  })
+  const daily = filled.slice(-14)
 
   if (!daily.length) return (
     <div className="text-slate-500 text-sm flex items-center justify-center h-16">
@@ -47,7 +55,7 @@ export default function WellnessPanel() {
   // Stats
   const hrvVals = daily.filter(d => d.hrv != null).map(d => d.hrv)
   const sleepVals = daily.filter(d => d.sleep_score != null).map(d => d.sleep_score)
-  const weightVals = daily.filter(d => d.weight_kg != null).map(d => d.weight_kg)
+  const weightVals = allDaily.filter(d => d.weight_kg != null).map(d => d.weight_kg)
 
   const avg = arr => arr.length ? arr.reduce((a, b) => a + b, 0) / arr.length : null
   const latest = arr => arr.length ? arr[arr.length - 1] : null
