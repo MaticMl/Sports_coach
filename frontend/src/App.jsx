@@ -21,41 +21,42 @@ function SyncBar({ preset, onPresetChange }) {
   const { mutate: triggerSync, isPending } = useTriggerSync()
   const { mutate: generateReport, isPending: isGenerating, data: reportData } = useGenerateReport()
 
-  if (!status) return null
-
-  const progress = status.total_to_sync > 0
+  const isSyncing = status?.is_syncing ?? false
+  const progress = status && status.total_to_sync > 0
     ? Math.round((status.progress / status.total_to_sync) * 100)
     : null
 
   return (
     <div className="flex items-center gap-4 text-xs flex-wrap">
-      <div className="flex items-center gap-2 text-slate-400">
-        <span className={`w-2 h-2 rounded-full ${status.is_syncing ? 'bg-yellow-400 animate-pulse' : 'bg-green-500'}`} />
-        {status.is_syncing
-          ? `Syncing… ${status.progress}/${status.total_to_sync} streams${progress !== null ? ` (${progress}%)` : ''}`
-          : status.last_sync
-            ? `Last sync: ${status.last_sync}`
-            : 'Not synced'}
-      </div>
-
-      <span className="text-slate-600">•</span>
-      <span className="text-slate-500">{status.total_activities} activities, {status.synced_streams} streams cached</span>
-
-      {status.error && (
-        <span className="text-red-400 flex items-center gap-1">
-          <AlertCircle size={12} /> {status.error.slice(0, 60)}
-        </span>
+      {status && (
+        <>
+          <div className="flex items-center gap-2 text-slate-400">
+            <span className={`w-2 h-2 rounded-full ${isSyncing ? 'bg-yellow-400 animate-pulse' : 'bg-green-500'}`} />
+            {isSyncing
+              ? `Syncing… ${status.progress}/${status.total_to_sync} streams${progress !== null ? ` (${progress}%)` : ''}`
+              : status.last_sync
+                ? `Last sync: ${status.last_sync}`
+                : 'Not synced'}
+          </div>
+          <span className="text-slate-600">•</span>
+          <span className="text-slate-500">{status.total_activities} activities, {status.synced_streams} streams cached</span>
+          {status.error && (
+            <span className="text-red-400 flex items-center gap-1">
+              <AlertCircle size={12} /> {status.error.slice(0, 60)}
+            </span>
+          )}
+        </>
       )}
 
       <TimeRangeSelector value={preset} onChange={onPresetChange} />
 
       <button
         onClick={() => triggerSync()}
-        disabled={isPending || status.is_syncing}
+        disabled={isPending || isSyncing}
         className="flex items-center gap-1.5 px-3 py-1.5 bg-blue-600 hover:bg-blue-500 disabled:bg-slate-700 disabled:text-slate-500 text-white rounded-lg transition-colors"
       >
-        <RefreshCw size={12} className={status.is_syncing ? 'animate-spin' : ''} />
-        {status.is_syncing ? 'Syncing…' : 'Sync Now'}
+        <RefreshCw size={12} className={isSyncing ? 'animate-spin' : ''} />
+        {isSyncing ? 'Syncing…' : 'Sync Now'}
       </button>
 
       <button
