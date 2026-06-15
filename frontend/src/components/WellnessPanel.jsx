@@ -62,7 +62,7 @@ export default function WellnessPanel() {
   return (
     <div className="flex flex-col gap-4">
       {/* Stat chips */}
-      <div className="grid grid-cols-4 gap-3">
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
         {stats.map(s => (
           <div key={s.label} className="bg-slate-800/60 rounded-lg p-3">
             <p className="text-slate-500 text-xs">{s.label}</p>
@@ -75,7 +75,7 @@ export default function WellnessPanel() {
       </div>
 
       {/* Mini charts */}
-      <div className="grid grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         <MiniChart data={daily} dataKey="hrv" color="#a78bfa" unit=" ms" label="HRV (last 90d)" />
         <MiniChart data={daily} dataKey="sleep_score" color="#34d399" unit="" label="Sleep Score (last 90d)" domain={[0, 100]} />
         <MiniChart data={daily} dataKey="weight_kg" color="#fbbf24" unit=" kg" label="Weight (last 90d)" />
