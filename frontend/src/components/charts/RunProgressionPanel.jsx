@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import {
   ComposedChart, Line, Bar, XAxis, YAxis, CartesianGrid,
-  Tooltip, ResponsiveContainer, Legend, Brush,
+  Tooltip, ResponsiveContainer, Legend,
 } from 'recharts'
 import { useRunProgression } from '../../hooks/useAthleteData'
 
@@ -30,9 +30,6 @@ export default function RunProgressionPanel() {
   const z2Trend = data?.z2_pace_trend || []
   const hrAtPace = data?.hr_at_pace_trend || []
 
-  const volBrushStart = Math.max(0, weekly.length - 52)
-  const z2BrushStart = Math.max(0, z2Trend.length - 30)
-
   return (
     <div className="flex flex-col gap-4 h-full">
       <div className="flex gap-2">
@@ -53,28 +50,17 @@ export default function RunProgressionPanel() {
 
       {view === 'volume' && (
         <>
-          <p className="text-xs text-slate-400">
-            Weekly running volume (km) + duration
-            {weekly.length > 52 && <span className="text-slate-600 ml-1">— drag to zoom</span>}
-          </p>
+          <p className="text-xs text-slate-400">Weekly running volume (km) + duration</p>
           <ResponsiveContainer width="100%" height={270}>
             <ComposedChart data={weekly} margin={{ top: 4, right: 8, left: -20, bottom: 4 }}>
               <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="week" tick={{ fontSize: 9 }} tickFormatter={v => v.slice(5)} interval={3} hide={weekly.length > 30} />
+              <XAxis dataKey="week" tick={{ fontSize: 9 }} tickFormatter={v => v.slice(5)} interval="preserveStartEnd" />
               <YAxis yAxisId="left" tick={{ fontSize: 10 }} unit="km" />
               <YAxis yAxisId="right" orientation="right" tick={{ fontSize: 10 }} unit="min" />
               <Tooltip content={<CustomTooltip />} />
               <Legend wrapperStyle={{ fontSize: 10 }} />
               <Bar yAxisId="left" dataKey="distance_km" name="distance_km" fill="#f97316" opacity={0.8} />
               <Line yAxisId="right" type="monotone" dataKey="duration_min" name="duration_min" stroke="#fb923c" dot={false} strokeWidth={1} strokeDasharray="4 2" />
-              <Brush
-                dataKey="week"
-                height={22}
-                stroke="#334155"
-                fill="#1e293b"
-                travellerWidth={6}
-                startIndex={volBrushStart}
-              />
             </ComposedChart>
           </ResponsiveContainer>
           <div className="grid grid-cols-3 gap-3 mt-1">
@@ -95,14 +81,11 @@ export default function RunProgressionPanel() {
 
       {view === 'z2_pace' && (
         <>
-          <p className="text-xs text-slate-400">
-            Average pace on Z2 runs (lower = faster = fitter)
-            {z2Trend.length > 30 && <span className="text-slate-600 ml-1">— drag to zoom</span>}
-          </p>
+          <p className="text-xs text-slate-400">Average pace on Z2 runs (lower = faster = fitter)</p>
           <ResponsiveContainer width="100%" height={270}>
             <ComposedChart data={z2Trend} margin={{ top: 4, right: 8, left: -20, bottom: 4 }}>
               <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="date" tick={{ fontSize: 9 }} interval="preserveStartEnd" hide={z2Trend.length > 30} />
+              <XAxis dataKey="date" tick={{ fontSize: 9 }} interval="preserveStartEnd" />
               <YAxis
                 yAxisId="pace"
                 reversed
@@ -115,14 +98,6 @@ export default function RunProgressionPanel() {
               <Legend wrapperStyle={{ fontSize: 10 }} />
               <Line yAxisId="pace" type="monotone" dataKey="pace_min_per_km" name="pace_min_per_km" stroke="#22c55e" dot={{ r: 3 }} strokeWidth={2} />
               <Line yAxisId="hr" type="monotone" dataKey="hr" name="avg_hr" stroke="#ef4444" dot={false} strokeWidth={1} strokeDasharray="4 2" />
-              <Brush
-                dataKey="date"
-                height={22}
-                stroke="#334155"
-                fill="#1e293b"
-                travellerWidth={6}
-                startIndex={z2BrushStart}
-              />
             </ComposedChart>
           </ResponsiveContainer>
           {z2Trend.length >= 2 && (

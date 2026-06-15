@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import {
   ScatterChart, Scatter, XAxis, YAxis, ZAxis, CartesianGrid,
-  Tooltip, ResponsiveContainer, LineChart, Line, Brush,
+  Tooltip, ResponsiveContainer, LineChart, Line,
 } from 'recharts'
 import { usePaceHR } from '../../hooks/useAthleteData'
 
@@ -63,8 +63,6 @@ export default function PaceHRPanel() {
   const filtered = selectedPeriod
     ? allSegments.filter(s => s.period === selectedPeriod)
     : allSegments.filter(s => displayPeriods.includes(s.period))
-
-  const effBrushStart = Math.max(0, efficiency.length - 24)
 
   return (
     <div className="flex flex-col gap-4 h-full">
@@ -147,25 +145,14 @@ export default function PaceHRPanel() {
         <>
           <p className="text-xs text-slate-400">
             Aerobic efficiency trend (HR / pace-unit) — lower = more efficient
-            {efficiency.length > 24 && <span className="text-slate-600 ml-1">— drag to zoom</span>}
           </p>
-          <ResponsiveContainer width="100%" height={efficiency.length > 24 ? 120 : 100}>
+          <ResponsiveContainer width="100%" height={120}>
             <LineChart data={efficiency} margin={{ top: 4, right: 8, left: -20, bottom: 0 }}>
               <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="month" tick={{ fontSize: 9 }} interval="preserveStartEnd" hide={efficiency.length > 24} />
+              <XAxis dataKey="month" tick={{ fontSize: 9 }} interval="preserveStartEnd" />
               <YAxis tick={{ fontSize: 10 }} domain={['auto', 'auto']} />
               <Tooltip formatter={v => v?.toFixed(2)} />
               <Line type="monotone" dataKey="hr_per_pace_unit" stroke="#22c55e" dot={{ r: 3 }} strokeWidth={2} />
-              {efficiency.length > 24 && (
-                <Brush
-                  dataKey="month"
-                  height={22}
-                  stroke="#334155"
-                  fill="#1e293b"
-                  travellerWidth={6}
-                  startIndex={effBrushStart}
-                />
-              )}
             </LineChart>
           </ResponsiveContainer>
         </>

@@ -13,11 +13,10 @@ const readinessColor = (score) => {
 }
 
 const acwrZone = (ratio) => {
-  if (ratio == null) return { label: '—', color: '#94a3b8' }
-  if (ratio < 0.8)  return { label: 'Low load',  color: '#60a5fa' }
+  if (ratio == null) return { label: '—',        color: '#94a3b8' }
+  if (ratio < 0.8)  return { label: 'Low load',  color: '#94a3b8' }
   if (ratio <= 1.3) return { label: 'Optimal',   color: '#34d399' }
-  if (ratio <= 1.5) return { label: 'Caution',   color: '#fbbf24' }
-  return               { label: 'High risk', color: '#f87171' }
+  return               { label: 'Above optimal', color: '#f87171' }
 }
 
 function ComponentBar({ label, value, color }) {
@@ -89,9 +88,8 @@ export default function ReadinessPanel() {
           />
           <YAxis yAxisId="r" domain={[0, 100]} tick={{ fontSize: 10, fill: '#94a3b8' }} />
           <YAxis yAxisId="a" orientation="right" domain={[0, 2.5]} tick={{ fontSize: 10, fill: '#94a3b8' }} />
-          <ReferenceLine yAxisId="a" y={0.8} stroke="#60a5fa" strokeDasharray="4 2" strokeOpacity={0.6} />
-          <ReferenceLine yAxisId="a" y={1.3} stroke="#34d399" strokeDasharray="4 2" strokeOpacity={0.6} />
-          <ReferenceLine yAxisId="a" y={1.5} stroke="#f87171" strokeDasharray="4 2" strokeOpacity={0.6} />
+          <ReferenceLine yAxisId="a" y={0.8} stroke="#94a3b8" strokeDasharray="4 2" strokeOpacity={0.6} />
+          <ReferenceLine yAxisId="a" y={1.3} stroke="#f87171" strokeDasharray="4 2" strokeOpacity={0.6} />
           <Tooltip
             contentStyle={{ backgroundColor: '#1e293b', border: '1px solid #334155', borderRadius: 8, fontSize: 12 }}
             labelStyle={{ color: '#94a3b8' }}
@@ -111,7 +109,7 @@ export default function ReadinessPanel() {
 
       <p className="text-slate-600 text-xs">
         Readiness = 40% HRV + 35% Sleep + 25% Resting HR vs 7-day baseline
-        &nbsp;·&nbsp; ACWR zones: 0.8–1.3 optimal, &gt;1.5 high risk
+        &nbsp;·&nbsp; ACWR: &lt;0.8 low, 0.8–1.3 optimal, &gt;1.3 above optimal
       </p>
     </div>
   )
