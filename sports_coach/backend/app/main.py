@@ -13,7 +13,7 @@ from fastapi.staticfiles import StaticFiles
 
 from . import cache, intervals_client
 from .config import settings
-from .processors import hr_drift, intensity, run_progression, interference, climb_vam, pace_hr, equiv_speed, readiness
+from .processors import hr_drift, intensity, run_progression, interference, climb_vam, pace_hr, equiv_speed, readiness, vam_curve
 from . import report as report_module
 
 log = logging.getLogger(__name__)
@@ -210,6 +210,11 @@ def get_equiv_speed(start: Optional[str] = None, end: Optional[str] = None):
 @app.get("/api/readiness")
 def get_readiness(start: Optional[str] = None, end: Optional[str] = None):
     return readiness.compute(start=start, end=end)
+
+
+@app.get("/api/vam-curve")
+def get_vam_curve(start: Optional[str] = None, end: Optional[str] = None):
+    return vam_curve.compute(start=start, end=end)
 
 
 @app.get("/api/wellness")

@@ -6,6 +6,7 @@ import InterferencePanel from './components/charts/InterferencePanel'
 import ClimbVAMPanel from './components/charts/ClimbVAMPanel'
 import PaceHRPanel from './components/charts/PaceHRPanel'
 import EquivSpeedPanel from './components/charts/EquivSpeedPanel'
+import VAMCurvePanel from './components/charts/VAMCurvePanel'
 import ReadinessPanel from './components/charts/ReadinessPanel'
 import WellnessPanel from './components/WellnessPanel'
 import {
@@ -201,6 +202,15 @@ export default function App() {
             border="border-emerald-500/20"
             Component={EquivSpeedPanel}
             className="min-h-[420px]"
+          />
+          <PanelCard
+            id="vam-curve"
+            title="VAM Curve Progression"
+            subtitle="Best VAM per duration interval over time — select interval above"
+            accent="from-orange-500/10"
+            border="border-orange-500/20"
+            Component={VAMCurvePanel}
+            className="min-h-[460px]"
           />
           <PanelCard {...INTERFERENCE_PANEL} className="min-h-[520px]" />
         </main>

@@ -67,5 +67,10 @@ export const useTriggerSync = () => {
 export const useReadiness = () =>
   useQuery({ queryKey: ['readiness'], queryFn: () => fetch('/readiness', {}) })
 
+export const useVAMCurve = () => {
+  const { start, end } = useDateRange()
+  return useQuery({ queryKey: ['vam-curve', start, end], queryFn: () => fetch('/vam-curve', { start, end }) })
+}
+
 export const useGenerateReport = () =>
   useMutation({ mutationFn: () => api.post('/generate-report') })
